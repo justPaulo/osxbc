@@ -10,7 +10,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#define kTableRows 50    // number of Apple OS X public known builds so far...
+#define kTableRows 51   // number of Apple OS X public known builds so far...
 #define kTableCols 2    // it's a 2 column simple table
 
 /* ******************************************************************************************************** */
@@ -90,8 +90,8 @@ int main(int argc, const char * argv[])
         "7B85","Mac OS X v10.3 Panther installation disc",
         
         // Jaguar
-        "6R65","Mac OS X v10.2.8 Jaguar"
-        "6R73","Mac OS X v10.2.8 Jaguar"
+        "6R65","Mac OS X v10.2.8 Jaguar",
+        "6R73","Mac OS X v10.2.8 Jaguar",
         "6G37","Mac OS X v10.2.3 Jaguar installation disc",
         "6G35","Mac OS X Server v10.2.3 Jaguar installation disc",
         "6C115","Mac OS X v10.2 Jaguar installation disc",
@@ -99,12 +99,12 @@ int main(int argc, const char * argv[])
         // Puma
         "5S66","Mac OS X v10.1.5 Puma with Networking Update 1.0",
         "5S60","Mac OS X v10.1.5 Puma",
-        "5L17b","Mac OS X v10.1 Puma installation disc with  Security Update 10-19-01",
+        "5L17B","Mac OS X v10.1 Puma installation disc with  Security Update 10-19-01", // actually is 5L17b, not to compromise algorithm
         "5L14","Mac OS X v10.1 Puma installation disc with  Security Update 10-19-01",
         "5G64","Mac OS X v10.1 Puma installation disc",
         
         //Cheetah
-        "4K78","Mac OS X v10.0 Cheetah installation disc"
+        "4K78", "Mac OS X v10.0 Cheetah installation disc"
     };
     
     if ( argc < 2)  // não foram passados argumentos na invocação do comando desde o OS...
@@ -119,10 +119,20 @@ int main(int argc, const char * argv[])
         toUpperStr(s);
     }
     
+    if ( strcmp(s,"DUMP")==0 )      // because everything is uppercased...
+    {
+        for (int i=0;i<kTableRows;i++)
+            printf("%s\t%s\n", tabela[i][0], tabela[i][1]);
+    }
+    
     for (int i=0 ; ; i++)                   // clever search & print... to be returned... 1 result only through inconditional loop
     {
-        if ( i >= kTableRows)               // stay within matrix/array boundaries...
+        if ( i >= kTableRows )          // stay within matrix/array boundaries...
+        {
+            if ( strcmp(s,"DUMP")!=0 )  // thus not echoing below msg when issuing "osxbc dump" command.... aestehtics :-)
+                printf("No such Mac OS X build!\n");
             break;
+        }
         
         if ( strcmp(tabela[i][0],s)==0 )    // found!
         {
@@ -133,3 +143,11 @@ int main(int argc, const char * argv[])
     
     return 0;
 }
+
+/*
+ 
+KNOWN BUGS:
+ 
+a) Missing "sysctl -a | grep kern.osxversion" proper system call through execve...
+ 
+*/

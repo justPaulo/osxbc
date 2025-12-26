@@ -30,7 +30,10 @@ int main(int argc, const char * argv[])
         // List of build numbers from Apple
         // per https://support.apple.com/en-us/HT201260
         
-        
+
+        // Tahoe
+        "25B78", "macOS 26.1",
+    
         // El Capitan
         "15AAA","Mac OS X v10.11 El Capitan",
         
